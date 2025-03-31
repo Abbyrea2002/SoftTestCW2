@@ -1,6 +1,7 @@
 package test;
 
 import main.TextElement;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -19,12 +20,16 @@ import static org.junit.Assert.*;
  */
 public class TextElementTest
 {
-   private TextElement textElement;
+
    private WebDriver driver;
+   private TextElement textElement;
 
+   //CSV generated with test results
    private static final String CSV_FILE = "C:\\Users\\B00835054\\Downloads\\test_results.csv";
-   private static final String REPORT_FILE = "C:\\Users\\B00835054\\Downloads\\test_summary.txt"; // Summary report file
+   //summary report file generated
+   private static final String REPORT_FILE = "C:\\Users\\B00835054\\Downloads\\test_summary.txt";
 
+   //initialize test record variables
    private static int totalTests = 0;
    private static int passedTests = 0;
    private static int failedTests = 0;
@@ -51,11 +56,7 @@ public class TextElementTest
 }     }
 
    @ParameterizedTest
-//   @CsvFileSource(resources = "C:\\Users\\abbyr\\IdeaProjects\\SoftTestCW2\\src\\test\\resources\\TitleData(Sheet1).csv", numLinesToSkip = 1)
-//   @CsvSource({
-//         "Products, Success",
-//         "Cart, Failure"
-//   })
+   @CsvFileSource(resources = "/TitleData(Sheet1).csv", numLinesToSkip = 1)
    public void testTitle(String title, String expectedOutcome){
       totalTests++;
       try{
@@ -86,9 +87,13 @@ public class TextElementTest
       if (driver != null){
          driver.quit();
          logger.info("Browser closed and test execution finished.");
-
+         //captureScreenshot();
       }
    }
+//   @AfterAll
+//   public static void generateSummaryReport(){
+//
+//   }
 
 
 

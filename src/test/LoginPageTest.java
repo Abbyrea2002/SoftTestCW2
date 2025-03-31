@@ -88,7 +88,7 @@
 //
 //   @ParameterizedTest
 //   //import data in file numlines skipped skips firstline(column names)
-//   // @CsvFileSource(resources = "/loginData.csv", numLinesToSkip = 1)
+//   // @CsvFileSource(test.resources = "/loginData.csv", numLinesToSkip = 1)
 //   @CsvSource({
 //         "student, Password123, Success",
 //         "invalidUser, short1, Failure",
