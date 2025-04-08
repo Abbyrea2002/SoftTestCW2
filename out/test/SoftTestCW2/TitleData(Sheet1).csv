@@ -1,4 +1,4 @@
-title,expectedOutcome
-Swag Labs,Success
-Check out,Failure
-Cart,Failure
+testCaseId,title,expectedOutcome
+1,SwagLabs,Success
+2,check out,Failure
+3,cart,Failure

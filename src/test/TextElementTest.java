@@ -30,7 +30,7 @@ public class TextElementTest
    private TextElement textElement;
 
    //CSV generated with test results
-   private static final String CSV_FILE = "C:\\Users\\B00835054\\Downloads\\test_results.csv";
+   private static final String CSV_FILE = "C:\\Users\\abbyr\\Downloads\\test_results.csv";
    //summary report file generated
   private static TestReport report = TestReport.getInstance();
 
@@ -59,7 +59,7 @@ public class TextElementTest
 
    @ParameterizedTest
    @CsvFileSource(resources = "/TitleData(Sheet1).csv", numLinesToSkip = 1)
-   public void testTitle(String title, String expectedOutcome){
+   public void testTitle(String testCaseId, String title, String expectedOutcome){
 
       try{
          //get page title
@@ -70,14 +70,17 @@ public class TextElementTest
          boolean correctTitle = actualTitle.equals(expectedTitle);
          report.addTestResult(correctTitle);
 
-        TestReport.logTestResult(title, expectedOutcome, actualTitle);
+        TestReport.logTestResult(testCaseId, title, expectedOutcome, actualTitle);
          if(correctTitle){
             assertEquals(expectedTitle, driver.getTitle());
-            report.addObservation("Titles match: Expected Title-" + expectedTitle + " Actual Title-" + actualTitle);
+            report.addObservation("Success!! Titles match: Expected Title-" + expectedTitle + " Actual Title-" + actualTitle);
 
          }else{
             assertNotEquals(expectedTitle, driver.getTitle());
-            report.addIssue("Titles do not match: Expected Title "+ expectedTitle + "Actual Title " + actualTitle);
+            report.addIssue("Failure!! Titles do not match: Expected Title "+ expectedTitle + "Actual Title " + actualTitle);
+
+            logger.info("Capturing screenshot due to title mismatch for test case: " + testCaseId);
+            TestReport.captureScreenshot(testCaseId, driver);
          }
          logger.info("Valid text element test completed successfully.");
       }catch(Exception e){
@@ -87,19 +90,6 @@ public class TextElementTest
 
    }
 
-//   private void logTestResult(String username, String password, String expectedOutcome, String actualOutcome) {
-//      boolean fileExists = new File(CSV_FILE).exists(); // Check if file exists
-//      try (BufferedWriter writer = new BufferedWriter(new FileWriter(CSV_FILE, true))) {
-//         if (!fileExists) { // If first time, write headers
-//            writer.write("Username,Password,ExpectedOutcome,ActualOutcome\n");
-//         }
-//         writer.write(username + "," + password + "," + expectedOutcome + "," + actualOutcome + "\n");
-//         writer.flush();
-//         logger.info("Test result saved to CSV.");
-//      } catch (IOException e) {
-//         logger.severe("Failed to write test result to CSV: " + e.getMessage());
-//      }
-//   }
 
    @AfterEach
    public void tearDown(){
@@ -107,7 +97,7 @@ public class TextElementTest
       if (driver != null){
          driver.quit();
          logger.info("Browser closed and test execution finished.");
-         //captureScreenshot();
+
       }
    }
 

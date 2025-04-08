@@ -1,11 +1,17 @@
 package main;
 
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
 import test.TextElementTest;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -83,13 +89,13 @@ public class TestReport
          System.err.println("ERROR: Could not write test summary report - " + e.getMessage());
       }
    }
-   public static void logTestResult(String title, String expectedOutcome, String actualOutcome) {
+   public static void logTestResult(String testCaseId, String title, String expectedOutcome, String actualOutcome) {
       boolean fileExists = new File(CSV_FILE).exists(); // Check if file exists
       try (BufferedWriter writer = new BufferedWriter(new FileWriter(CSV_FILE, true))) {
          if (!fileExists) { // If first time, write headers
-            writer.write("Title,ExpectedOutcome,ActualOutcome\n");
+            writer.write(" TestCaseId,Title,ExpectedOutcome,ActualOutcome\n");
          }
-         writer.write(title + "," + expectedOutcome + "," + actualOutcome + "\n");
+         writer.write(testCaseId + ","+ title + "," + expectedOutcome + "," + actualOutcome + "\n");
          writer.flush();
          logger.info("Test result saved to CSV.");
       } catch (IOException e) {
